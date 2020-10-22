@@ -54,6 +54,17 @@ export default function EditClient() {
   const [errorSave, setErrorSave] = useState(false);
   const navigation = useNavigation();
 
+  const validateNumero = (text) => {
+    let textS = text.replace(/[^0-9]/g, '');
+    setTelefono(textS);
+    // setTelefono(text.replace('/[^0-9]/g', ''))
+  }
+
+  function validateEmail(email: any) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
   const validacionFormulario = () =>{
     setErrorSave(false);
     setErrors({});
@@ -64,6 +75,14 @@ export default function EditClient() {
     } else if (!apellido) {
       setErrors({
         apellido: '*El apellido es requerido',
+      });
+    } else if (!email) {
+      setErrors({
+        email: '*El Email es requerido',
+      });
+    } else if (!validateEmail(email)) {
+      setErrors({
+        email: '*El Email no es valido',
       });
     } else if (!direccion) {
       setErrors({
@@ -129,14 +148,14 @@ export default function EditClient() {
                 onChangeText={text => setNombre(text)}
                 value={nombre}
             />
-            {errors.nombre && <Text style={styles.textError}>El nombre es necesario</Text>}
+            {errors.nombre && <Text style={styles.textError}>{errors.nombre}</Text>}
             <Text>Apellido:</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
                 onChangeText={text => setApellido(text)}
                 value={apellido}
             />
-            {errors.apellido && <Text style={styles.textError}>El Apellido es necesario</Text>}
+            {errors.apellido && <Text style={styles.textError}>{errors.apellido}</Text>}
             <Text>Cedula:</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
@@ -149,11 +168,13 @@ export default function EditClient() {
                 onChangeText={text => setEmail(text)}
                 value={email}
             />
-            <Text>Telefono:</Text>
+            {errors.email && <Text style={styles.textError}>{errors.email}</Text>}
+            <Text>Telefono: (Solo Acepta Numeros)</Text>
             <TextInput
                 style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-                onChangeText={text => setTelefono(text)}
+                onChangeText={text => validateNumero(text)}
                 value={telefono}
+                keyboardType='name-phone-pad'
             />
             <Text>Direccion:</Text>
             <TextInput
@@ -161,7 +182,7 @@ export default function EditClient() {
                 onChangeText={text => setDireccion(text)}
                 value={direccion}
             />
-            {errors.direccion && <Text style={styles.textError}>La direccion es necesaria</Text>}
+            {errors.direccion && <Text style={styles.textError}>{errors.direccion}</Text>}
 
         </View>
       {errorSave && <Text
