@@ -54,7 +54,7 @@ export default function EditClient() {
   const [errorSave, setErrorSave] = useState(false);
   const navigation = useNavigation();
 
-  const validateNumero = (text) => {
+  const validateNumero = (text: any) => {
     let textS = text.replace(/[^0-9]/g, '');
     setTelefono(textS);
     // setTelefono(text.replace('/[^0-9]/g', ''))

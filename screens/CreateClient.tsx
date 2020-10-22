@@ -55,7 +55,7 @@ export default function CreateClient() {
     setErrors('');
   };
 
-  const validateNumero = (text) => {
+  const validateNumero = (text: any) => {
     let textS = text.replace(/[^0-9]/g, '');
     setTelefono(textS);
     // setTelefono(text.replace('/[^0-9]/g', ''))
